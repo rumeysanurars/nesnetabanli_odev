@@ -1,0 +1,134 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace aracodev
+{
+    internal class Program
+    {
+        public class Arac
+        {
+            public string Model { get; set; }
+            public string Marka { get; set; }
+            public DateTime EdinmeTarihi { get; set; }
+            public double EdinmeFiyati { get; set; }
+            public string SasiNo { get; set; }
+            public List<Kisi> Sahipler { get; set; }
+
+            public Arac()
+            {
+                Sahipler = new List<Kisi>();
+            }
+
+            
+            public string OncekiSahip()
+            {
+                if (Sahipler.Count > 1)
+                {
+                    var oncekiSahip = Sahipler[Sahipler.Count - 2];
+                    return oncekiSahip.Adi + " " + oncekiSahip.Soyadi;
+                }
+                return "Bilinmiyor (İlk Sahibi)";
+            }
+
+            
+            public void AraciListele()
+            {
+                Console.WriteLine($"Şasi Numarası: {SasiNo.Substring(0, 1)}**{SasiNo.Substring(SasiNo.Length - 1)}");
+                Console.WriteLine($"Sahibi: {Sahipler[Sahipler.Count - 1].Adi} {Sahipler[Sahipler.Count - 1].Soyadi}");
+                Console.WriteLine($"Edinme Tarihi: {EdinmeTarihi.ToShortDateString()}");
+                Console.WriteLine($"Önceki Sahibi: {OncekiSahip()}");
+                Console.WriteLine();
+            }
+        }
+
+        public class Kisi
+        {
+            public string Adi { get; set; }
+            public string Soyadi { get; set; }
+            public int DogumYili { get; set; }
+            public string TcKimlikNo { get; set; }
+
+            public Kisi(string adi, string soyadi, int dogumYili, string tcKimlikNo)
+            {
+                Adi = adi;
+                Soyadi = soyadi;
+                DogumYili = dogumYili;
+                TcKimlikNo = tcKimlikNo;
+            }
+        }
+        class Programs
+        {
+            static void Main(string[] args)
+            {
+                
+                Kisi kisi1 = new Kisi("Rümeysa Nur", "Aslan", 2004, "23301071040");
+                Kisi kisi2 = new Kisi("Özlem ", "Tansu", 2004, "23301071066");
+                Kisi kisi3 = new Kisi("Hilal ", "Kahraman", 2002, "23301071030");
+                Kisi kisi4 = new Kisi("Elif ", "Civelekoğlu", 2004, "23301071059");
+                Kisi kisi5 = new Kisi("Buse Nur", "Vural", 2004, "23301071042");
+                Kisi kisi6 = new Kisi("Elif", "Aslan", 1999, "67890123456");
+
+                
+                Arac arac1 = new Arac { Model = "Passat", Marka = "Volkswagen", EdinmeTarihi = new DateTime(2023, 1, 1), EdinmeFiyati = 1500000, SasiNo = "A123" };
+                arac1.Sahipler.Add(kisi3);  
+                arac1.Sahipler.Add(kisi2);  
+                arac1.Sahipler.Add(kisi1);  
+                arac1.Sahipler.Add(kisi4);  
+
+                Arac arac2 = new Arac { Model = "Corolla", Marka = "Toyota", EdinmeTarihi = new DateTime(2024, 6, 15), EdinmeFiyati = 1200000, SasiNo = "B987" };
+                arac2.Sahipler.Add(kisi1);  
+                arac2.Sahipler.Add(kisi2);  
+                arac2.Sahipler.Add(kisi3);  
+                arac2.Sahipler.Add(kisi4); 
+                arac2.Sahipler.Add(kisi5);  
+
+                Arac arac3 = new Arac { Model = "Civic", Marka = "Honda", EdinmeTarihi = new DateTime(2023, 4, 20), EdinmeFiyati = 1800000, SasiNo = "C123" };
+                arac3.Sahipler.Add(kisi2);  
+                arac3.Sahipler.Add(kisi4);  
+                arac3.Sahipler.Add(kisi1);  
+                arac3.Sahipler.Add(kisi6);  
+                arac3.Sahipler.Add(kisi5);  
+                arac3.Sahipler.Add(kisi3);  
+
+                Arac arac4 = new Arac { Model = "Focus", Marka = "Ford", EdinmeTarihi = new DateTime(2024, 9, 10), EdinmeFiyati = 1400000, SasiNo = "D987" };
+                arac4.Sahipler.Add(kisi4);  
+                arac4.Sahipler.Add(kisi1);  
+                arac4.Sahipler.Add(kisi2);  
+
+                
+                List<Arac> araclar = new List<Arac> { arac1, arac2, arac3, arac4 };
+
+                while (true)
+                {
+                    Console.WriteLine("Araç listelemek için 'listele' komutunu girin. Çıkmak için 'cikis' yazın:");
+                    string komut = Console.ReadLine().ToLower();
+
+                    if (komut == "listele")
+                    {
+                        foreach (var arac in araclar)
+                        {
+                            arac.AraciListele();
+                        }
+                    }
+                    else if (komut == "cikis")
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Geçersiz komut! Lütfen 'listele' veya 'cikis' komutunu girin.");
+                    }
+                }
+
+                Console.WriteLine("Program tamamlandı, çıkmak için bir tuşa basın...");
+                Console.ReadKey();
+            }
+        }
+
+    }
+
+
+}
